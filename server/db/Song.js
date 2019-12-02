@@ -21,4 +21,22 @@ const songSchema = new mongoose.Schema({
 
 const Song = mongoose.model('Song', songSchema);
 
+const get = (callback) => {
+  Song.find((err, data) => {
+    if (err) {
+      console.log('error finding data')
+    } else {
+      return data;
+    }
+  })
+  .then((data) => {
+    callback(null, data);
+  })
+  .catch((err) => {
+    console.log('error from DB')
+    callback(err, null);
+  })
+}
+
 module.exports = Song;
+module.exports.get = get;
