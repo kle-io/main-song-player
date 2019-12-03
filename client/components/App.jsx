@@ -1,9 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
 
-class App extends React.Components{
-  constructor(props){
-    super(props);
+class App extends React.Component{
+  constructor(){
+    super();
     this.getSongs = this.getSongs.bind(this);
   }
 

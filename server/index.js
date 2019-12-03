@@ -1,14 +1,19 @@
+/* eslint-disable no-console */
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
+const Songs = require('./db/Song.js');
+
 const app = express();
 const port = 3000;
-const bodyParser = require('body-parser');
-const Songs = require('./db/Song.js')
 
-app.use('/', express.static(path.join(__dirname, '../public/index.html')));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use('/', express.static(path.join(__dirname, '../public/')));
 
 app.get('/api/songs', (req, res) => {
-  Songs.get((err, data) => {
+  Songs.getAllSongs((err, data) => {
     if (err) {
       console.log('error getting from DB');
       res.status(400).send();
@@ -16,9 +21,9 @@ app.get('/api/songs', (req, res) => {
       console.log('server received data from DB');
       res.send(data);
     }
-  })
-})
+  });
+});
 
-app.listen(port, ()=> {
-  console.log(`Listening from port ${port}`)
+app.listen(port, () => {
+  console.log(`Listening from port ${port}`);
 });
