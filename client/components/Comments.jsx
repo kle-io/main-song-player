@@ -1,6 +1,24 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable class-methods-use-this */
 import React from 'react';
+import styled from 'styled-components';
+
+const NavComments = styled.div`
+position: relative;
+left: 100px;
+font-size: 10px;
+`;
+
+const UserButton = styled.button`
+border: none;
+background-color: transparent;
+`;
+
+const UserImg = styled.img`
+background-image: 100%;
+width: 20px;
+height: 20px;
+`;
 
 class Comments extends React.Component {
   constructor(props) {
@@ -29,18 +47,18 @@ class Comments extends React.Component {
     const { comments } = this.props;
     const { clickHover } = this.state;
     return (
-      <div className="comments">
+      <NavComments>
         {comments.map((comment) => {
           return (
-            <div key={comment.user} className="comment">
-              <button className="photoButton" type="button" onClick={this.handleComment} onMouseOver={this.handleComment} onFocus={this.handleComment}>
-                <img className="userPhoto" src={comment.photo} alt="user" />
-              </button>
+            <div key={comment.user}>
+              <UserButton onClick={this.handleComment} onMouseOver={this.handleComment} onFocus={this.handleComment}>
+                <UserImg src={comment.photo} alt="user" />
+              </UserButton>
               {clickHover ? <div>{`${comment.user}  ${comment.comment}`}</div> : ''}
             </div>
           );
         })}
-      </div>
+      </NavComments>
     );
   }
 }

@@ -36,7 +36,7 @@ insertSampleSongs();
 // sample((durations) => {
 //   const sampleSongs = [];
 //   for (let i = 0; i < 100; i++) {
-//     const genres = ['Alternative Rock', 'Ambient', 'Classical', 'Country', 'Dance & EDM', 'Deep House', 'Drum & Bass', 'Dubstep', 'Electronic', 'Folk & Singer-Songwriter', 'Hip-hop & Rap', 'House', 'Indie', 'Jazz & Blues', 'Metal', 'Piano', 'Pop', 'R&B & Soul', 'Reggae', 'Rock', 'Trance', 'Trap'];
+//     const genres = ['Alternative Rock', 'Ambient', 'Classical', 'Country', 'Dance & EDM', 'Deep House', 'Drum & Bass', 'Dubstep', 'Electronic', 'Singer-Songwriter', 'Hip-hop & Rap', 'House', 'Indie', 'Jazz & Blues', 'Metal', 'Piano', 'Pop', 'R&B & Soul', 'Reggae', 'Rock', 'Trance', 'Trap'];
 //     const genreIndex = Math.floor(Math.random() * 22);
 //     const genre = genres[genreIndex];
 //     const artist = faker.internet.userName();

@@ -2,8 +2,46 @@
 
 import React from 'react';
 import Axios from 'axios';
-import Moment from 'moment';
+import styled from 'styled-components';
+import InfoLeft from './InfoLeft.jsx';
+import InfoRight from './InfoRight.jsx'
+import Audio from './Audio.jsx';
 import Comments from './Comments.jsx';
+
+const Nav = styled.div`
+  width: 1240px;
+  height: 380px;
+  position: relative;
+  margin: auto;
+  top: 40px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 30px 560px 20px 30px;
+  opacity: 0.9;
+`;
+
+const PlayButton = styled.button`
+background-image: url("play.png");
+background-color: transparent;
+background-size: 100%;
+background-repeat: no-repeat;
+width: 75px;
+height: 75px;
+border: none;
+position: relative;
+right: 5px;
+bottom: 5px;
+`;
+
+const NavMusic = styled.div`
+width: 820px;
+height: 100px;
+border: 1px solid;
+position: absolute;
+bottom: 40px;
+`
 
 class App extends React.Component {
   constructor(props) {
@@ -20,7 +58,8 @@ class App extends React.Component {
       posted: '',
       comments: [],
       play: true,
-      progress: '00:00',
+      progress: '',
+      began: false,
     };
     this.getSongs = this.getSongs.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
@@ -59,7 +98,7 @@ class App extends React.Component {
           time: 114,
         }],
     }, () => {
-      const gradient = document.getElementsByClassName('mainPlayer')[0];
+      const gradient = document.getElementsByClassName('main')[0];
       if (gradient) {
         gradient.style.backgroundImage = `linear-gradient(to right, ${this.state.color1}, ${this.state.color2})`;
       }
@@ -90,6 +129,7 @@ class App extends React.Component {
     }
     this.setState({
       play: !play,
+      began: true,
     });
   }
 
@@ -99,48 +139,28 @@ class App extends React.Component {
     const progression = document.getElementsByClassName('songProgression')[0];
     progression.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
     let sec = parseInt(audio.currentTime % 60, 0);
-    let min = parseInt((audio.currentTime / 60) % 60, 0);
+    const min = parseInt((audio.currentTime / 60) % 60, 0);
     if (sec.toString().length === 1) {
       sec = `0${sec}`;
     }
-    if (min.toString().length === 1) {
-      min = `0${min}`;
-    }
+
     this.setState({
-      progress: `${min} : ${sec}`,
+      progress: `${min}:${sec}`,
     });
   }
 
   render() {
-    const { artist, title, photo, posted, genre, link, duration, progress, comments } = this.state;
+    const { artist, genre, title, photo, duration, link, posted, comments, progress, began } = this.state;
     return (
-      <div className="mainContainer">
-        <div className="mainPlayer">
-          <button className="playButton" type="button" onClick={this.handlePlay}> </button>
-          <div className="songTitle">
-            <button className="artist" type="button">{artist}</button>
-            <span className="title">{title}</span>
-          </div>
-          <div className="rightContainer">
-            <img src={photo} className="cover" alt="song-cover" />
-            <div className="songInfo">
-              <span className="posted">{Moment(posted).fromNow()}</span>
-              <button className="genre" type="button">{`# ${genre}`}</button>
-            </div>
-          </div>
-          <div className="music">
-            <audio src={link} onTimeUpdate={this.handleProgression}>
-              our browser does not support the audio element.
-            </audio>
-            <div className="songStart">{progress}</div>
-            <div className="songEnd">
-              {`0${Math.floor(duration / 60)} : ${(60 * ((duration / 60) - Math.floor(duration / 60))).toString().substring(0, 2)}`}
-            </div>
-            <div className="songProgression" />
-            <Comments comments={comments} />
-          </div>
-        </div>
-      </div>
+      <Nav className="main">
+        <PlayButton className="playButton" onClick={this.handlePlay} />
+        <InfoLeft artist={artist} title={title} />
+        <InfoRight photo={photo} posted={posted} genre={genre} />
+        <NavMusic>
+          <Audio link={link} began={began} progress={progress} duration={duration} handleProgression={this.handleProgression} />
+          <Comments comments={comments} />
+        </NavMusic>
+      </Nav>
     );
   }
 }
