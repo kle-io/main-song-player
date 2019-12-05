@@ -1,6 +1,5 @@
-/* eslint-disable class-methods-use-this */
 /* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 
 class Comments extends React.Component {
@@ -14,28 +13,30 @@ class Comments extends React.Component {
 
   handleComment(event) {
     event.preventDefault();
-    const show = this.state.clickHover;
+    const { clickHover } = this.state;
     const user = document.getElementsByClassName('userPhoto')[0];
-    if (show) {
+    if (clickHover) {
       user.style.borderRadius = '20px';
     } else {
       user.style.borderRadius = '0';
     }
     this.setState({
-      clickHover: !show,
+      clickHover: !clickHover,
     });
   }
 
   render() {
+    const { comments } = this.props;
+    const { clickHover } = this.state;
     return (
       <div className="comments">
-        {this.props.comments.map((comment) => {
+        {comments.map((comment) => {
           return (
             <div key={comment.user} className="comment">
               <button className="photoButton" type="button" onClick={this.handleComment} onMouseOver={this.handleComment} onFocus={this.handleComment}>
                 <img className="userPhoto" src={comment.photo} alt="user" />
               </button>
-              {this.state.clickHover ? <div>{`${comment.user}  ${comment.comment}`}</div> : ''}
+              {clickHover ? <div>{`${comment.user}  ${comment.comment}`}</div> : ''}
             </div>
           );
         })}

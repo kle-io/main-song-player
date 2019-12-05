@@ -65,12 +65,14 @@ body {
   height: 63px;
   margin-right: 0;
   margin-left: auto;
-  direction: rtl;
+  /* direction: rtl; */
   position: relative;
   right: 370px;
   bottom: 335px;
 }
 .posted {
+  position: absolute;
+  right: 0;
   font-size: 16px;
   color: white;
 }
@@ -84,6 +86,7 @@ body {
   text-align: right;
   display: block;
   position: absolute;
+  right: 0;
   top: 40px;
 }
 .playButton {
