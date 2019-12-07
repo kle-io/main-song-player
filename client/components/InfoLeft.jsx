@@ -5,7 +5,7 @@ const NavLeft = styled.div`
 width: 575px;
 height: 68px;
 position: relative;
-left: 75px;
+left: 70px;
 bottom: 75px;
 `;
 

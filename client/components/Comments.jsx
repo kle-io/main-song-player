@@ -32,7 +32,7 @@ class Comments extends React.Component {
   handleComment(event) {
     event.preventDefault();
     const { clickHover } = this.state;
-    const user = document.getElementsByClassName('userPhoto')[0];
+    const user = document.getElementsByClassName('userButton')[0];
     if (clickHover) {
       user.style.borderRadius = '20px';
     } else {
@@ -51,7 +51,7 @@ class Comments extends React.Component {
         {comments.map((comment) => {
           return (
             <div key={comment.user}>
-              <UserButton onClick={this.handleComment} onMouseOver={this.handleComment} onFocus={this.handleComment}>
+              <UserButton className="userButton" onClick={this.handleComment} onMouseOver={this.handleComment} onFocus={this.handleComment}>
                 <UserImg src={comment.photo} alt="user" />
               </UserButton>
               {clickHover ? <div>{`${comment.user}  ${comment.comment}`}</div> : ''}

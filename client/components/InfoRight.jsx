@@ -25,7 +25,7 @@ margin-right: 0;
 margin-left: auto;
 position: relative;
 right: 370px;
-bottom: 335px;
+bottom: 338px;
 `;
 
 const Posted = styled.span`

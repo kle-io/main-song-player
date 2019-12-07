@@ -9,14 +9,15 @@ const songSchema = new mongoose.Schema({
   photo: String,
   color1: String,
   color2: String,
-  duration: String,
+  duration: Number,
   link: String,
   posted: String,
+  peaks: [Number],
   comments: [{
     user: String,
     photo: String,
     comment: String,
-    time: String,
+    time: Number,
   }],
 });
 
