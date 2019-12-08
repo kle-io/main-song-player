@@ -4,63 +4,51 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NavComments = styled.div`
-position: relative;
-left: 100px;
-font-size: 10px;
-`;
-
-const UserButton = styled.button`
-border: none;
-background-color: transparent;
+position: absolute;
+top: 50px;
+font-size: 11px;
 `;
 
 const UserImg = styled.img`
-background-image: 100%;
+z-index: 10;
 width: 20px;
 height: 20px;
+background-image: 100%;
+position: relative;
+left: ${({ time, duration }) => `${Math.floor((time / duration) * 820)}px`};
 `;
 
-class Comments extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clickHover: false,
-    };
-    this.handleComment = this.handleComment.bind(this);
-  }
+const Comment = styled.div`
+position: relative;
+color: white;
+top: 30px;
+max-width: 200px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+left: ${({ time, duration }) => `${Math.floor((time / duration) * 820)}px`};
+`;
 
-  handleComment(event) {
-    event.preventDefault();
-    const { clickHover } = this.state;
-    const user = document.getElementsByClassName('userButton')[0];
-    if (clickHover) {
-      user.style.borderRadius = '20px';
-    } else {
-      user.style.borderRadius = '0';
-    }
-    this.setState({
-      clickHover: !clickHover,
-    });
-  }
+const User = styled(Comment)`
+color: #ff4c00;
 
-  render() {
-    const { comments } = this.props;
-    const { clickHover } = this.state;
-    return (
-      <NavComments>
-        {comments.map((comment) => {
-          return (
-            <div key={comment.user}>
-              <UserButton className="userButton" onClick={this.handleComment} onMouseOver={this.handleComment} onFocus={this.handleComment}>
-                <UserImg src={comment.photo} alt="user" />
-              </UserButton>
-              {clickHover ? <div>{`${comment.user}  ${comment.comment}`}</div> : ''}
-            </div>
-          );
-        })}
-      </NavComments>
-    );
-  }
-}
+`;
+
+const Comments = ({ comments, duration, handleCommentHoverIn, handleCommentHoverOut, handleCommentClick }) => {
+  return (
+    <div>
+      {comments.map((comment) => {
+        const { time } = comment;
+        return (
+          <NavComments key={comment.user}>
+           <UserImg className="userPhoto" src={comment.photo} alt="user" time={time} duration={duration} id={comment.user} onClick={handleCommentClick} onMouseOver={handleCommentHoverIn} onMouseOut={handleCommentHoverOut} />
+            {comment.hover || comment.click ? <User time={time} duration={duration} >{`${comment.user}`}</User> : ''}
+            {comment.hover || comment.click ? <Comment time={time} duration={duration} >{`${comment.comment}`}</Comment> : ''}
+          </NavComments>
+        );
+      })}
+    </div>
+  );
+};
 
 export default Comments;

@@ -16,15 +16,6 @@ const SongEnd = styled(SongTime)`
 right: 0;
 `;
 
-const SongProgression = styled.div`
-position: relative;
-width: 0px;
-height: 2px;
-left: 0;
-top: 47px;
-background-color: white;
-`;
-
 const Audio = ({ link, began, progress, duration, handleProgression }) => {
   const min = Math.floor(duration / 60);
   let sec = Math.floor(60 * ((duration / 60) - min));
@@ -36,7 +27,6 @@ const Audio = ({ link, began, progress, duration, handleProgression }) => {
      <audio src={link} onTimeUpdate={handleProgression}>our browser does not support the audio element.</audio>
      {began ? <SongTime>{progress}</SongTime> : ''}
      <SongEnd>{`${min}:${sec}`}</SongEnd>
-     <SongProgression className="songProgression" />
    </div>
   );
 };
