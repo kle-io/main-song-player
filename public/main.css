@@ -1,0 +1,7 @@
+*:focus {
+  outline: none;
+}
+body {
+  font-family: Verdana, Tahoma, sans-serif;
+  font-weight: 100;
+}

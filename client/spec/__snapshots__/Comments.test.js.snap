@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Comments should render all usernames, comments, photos 1`] = `
+<div
+  className="comments"
+>
+  <div
+    className="comment"
+  >
+    <button
+      className="photoButton"
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOver={[Function]}
+      type="button"
+    >
+      <img
+        alt="user"
+        className="userPhoto"
+        src="https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/70.jpg"
+      />
+    </button>
+    
+  </div>
+  <div
+    className="comment"
+  >
+    <button
+      className="photoButton"
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOver={[Function]}
+      type="button"
+    >
+      <img
+        alt="user"
+        className="userPhoto"
+        src="https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/82.jpg"
+      />
+    </button>
+    
+  </div>
+  <div
+    className="comment"
+  >
+    <button
+      className="photoButton"
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOver={[Function]}
+      type="button"
+    >
+      <img
+        alt="user"
+        className="userPhoto"
+        src="https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/27.jpg"
+      />
+    </button>
+    
+  </div>
+</div>
+`;

@@ -9,20 +9,21 @@ const songSchema = new mongoose.Schema({
   photo: String,
   color1: String,
   color2: String,
-  duration: String,
+  duration: Number,
   link: String,
   posted: String,
+  peaks: [Number],
   comments: [{
     user: String,
     photo: String,
     comment: String,
-    time: String,
+    time: Number,
   }],
 });
 
 const Song = mongoose.model('Song', songSchema);
 
-const getAllSongs = (callback) => {
+const getSong = (callback) => {
   Song.find((err, data) => {
     if (err) {
       console.log('error finding data');
@@ -40,4 +41,4 @@ const getAllSongs = (callback) => {
 };
 
 module.exports = Song;
-module.exports.getAllSongs = getAllSongs;
+module.exports.getSong = getSong;

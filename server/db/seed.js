@@ -4,8 +4,9 @@ const db = require('./index.js');
 const Song = require('./Song.js');
 const sampleData = require('./sampleData.js');
 
+
 const insertSampleSongs = () => {
-  Song.create(sampleData)
+  Song.create(sampleData.sampleData)
     .then(() => db.disconnect());
 };
 
@@ -17,6 +18,7 @@ insertSampleSongs();
 // const path = require('path');
 // const faker = require('faker');
 // const s3 = require('./s3.js');
+// const Peaks = require('./waveform/Peaks.js');
 
 // const songs = s3.urlSongs;
 // const covers = s3.urlCovers;
@@ -36,7 +38,7 @@ insertSampleSongs();
 // sample((durations) => {
 //   const sampleSongs = [];
 //   for (let i = 0; i < 100; i++) {
-//     const genres = ['Alternative Rock', 'Ambient', 'Classical', 'Country', 'Dance & EDM', 'Deep House', 'Drum & Bass', 'Dubstep', 'Electronic', 'Folk & Singer-Songwriter', 'Hip-hop & Rap', 'House', 'Indie', 'Jazz & Blues', 'Metal', 'Piano', 'Pop', 'R&B & Soul', 'Reggae', 'Rock', 'Trance', 'Trap'];
+//     const genres = ['Alternative Rock', 'Ambient', 'Classical', 'Country', 'Dance & EDM', 'Deep House', 'Drum & Bass', 'Dubstep', 'Electronic', 'Singer-Songwriter', 'Hip-hop & Rap', 'House', 'Indie', 'Jazz & Blues', 'Metal', 'Piano', 'Pop', 'R&B & Soul', 'Reggae', 'Rock', 'Trance', 'Trap'];
 //     const genreIndex = Math.floor(Math.random() * 22);
 //     const genre = genres[genreIndex];
 //     const artist = faker.internet.userName();
@@ -59,6 +61,7 @@ insertSampleSongs();
 //       };
 //       comments.push(comment);
 //     }
+//     console.log(Peaks.Peaks[0])
 //     // create each sample song
 //     sampleSongs.push({
 //       artist,
@@ -70,6 +73,7 @@ insertSampleSongs();
 //       duration: durations[i],
 //       link: songs[i],
 //       posted: postTime,
+//       peaks: Peaks.Peaks[i],
 //       comments,
 //     });
 //   }
