@@ -16,6 +16,9 @@ width: 100%;
 height: 100%;
 object-fit: cover;
 box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+&:hover {
+  cursor: pointer;
+}
 `;
 
 const NavInfo = styled.div`
@@ -49,6 +52,10 @@ max-width: 150px;
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
+&:hover {
+  background-color: #333333ba;
+  cursor: pointer;
+}
 `;
 
 const InfoRight = ({ photo, posted, genre }) => {

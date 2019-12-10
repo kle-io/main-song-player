@@ -16,6 +16,10 @@ background-color: rgba(0,0,0,0.8);
 padding: 4px 4px;
 position: absolute;
 box-sizing: content-box;
+&:hover {
+  color: white;
+  cursor: pointer;
+}
 `;
 
 const Title = styled.span`

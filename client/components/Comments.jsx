@@ -10,7 +10,7 @@ font-size: 11px;
 `;
 
 const UserImg = styled.img`
-z-index: 10;
+z-index: 20;
 width: 20px;
 height: 20px;
 background-image: 100%;
@@ -31,7 +31,6 @@ left: ${({ time, duration }) => `${Math.floor((time / duration) * 820)}px`};
 
 const User = styled(Comment)`
 color: #ff4c00;
-
 `;
 
 const Comments = ({ comments, duration, handleCommentHoverIn, handleCommentHoverOut, handleCommentClick }) => {
