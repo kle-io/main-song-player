@@ -67,7 +67,7 @@ class App extends React.Component {
       click: false,
       current: 0,
     };
-    this.getSongs = this.getSongs.bind(this);
+    this.getSong = this.getSong.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
     this.handleProgression = this.handleProgression.bind(this);
     this.handleCommentHoverIn = this.handleCommentHoverIn.bind(this);
@@ -78,352 +78,51 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.getSongs();
-    this.setState({
-      artist: 'Angelita.OConnell',
-      genre: 'Rock',
-      title: 'secured line Secured Stream',
-      photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/38.jpg',
-      color1: '#051250',
-      color2: '#6f6d50',
-      duration: 229.704,
-      link: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/songs/38.mp3',
-      posted: '2019-11-24T12:36:53.519Z',
-      peaks: [ -0.13, 0.14, -0.16, 0.15, -0.17, 0.16, -0.15, 0.15, -0.17, 0.15, -0.15, 0.16, -0.1, 0.09, -0.05, 0.05, -0.18, 0.19, -0.2, 0.19, -0.2, 0.24, -0.22, 0.17, -0.21, 0.22, -0.21, 0.22, -0.1, 0.12, -0.2, 0.2, -0.2, 0.2, -0.2, 0.18, -0.13, 0.13, -0.18, 0.19, -0.13, 0.14, -0.25, 0.22, -0.17, 0.19, -0.18, 0.19, -0.44, 0.56, -0.43, 0.55, -0.48, 0.46, -0.43, 0.67, -0.28, 0.24, -0.53, 0.43, -0.17, 0.19, -0.26, 0.27, -0.65, 0.63, -0.46, 0.46, -0.43, 0.46, -0.54, 0.48, -0.19, 0.22, -0.54, 0.44, -0.22, 0.24, -0.43, 0.37, -0.58, 0.57, -0.61, 0.54, -0.5, 0.44, -0.37, 0.47, -0.23, 0.3, -0.46, 0.44, -0.2, 0.24, -0.54, 0.5, -0.49, 0.5, -0.53, 0.57, -0.49, 0.41, -0.41, 0.51, -0.24, 0.24, -0.57, 0.45, -0.25, 0.22, -0.39, 0.36, -0.65, 0.61, -0.72, 0.58, -0.57, 0.61, -0.43, 0.6, -0.57, 0.49, -0.54, 0.54, -0.59, 0.49, -0.5, 0.38, -0.76, 0.82, -0.69, 0.68, -0.58, 0.72, -0.37, 0.5, -0.56, 0.57, -0.65, 0.74, -0.67, 0.9, -0.82, 0.83, -0.8, 0.88, -0.65, 0.58, -0.62, 0.4, -0.56, 0.53, -0.6, 0.54, -0.46, 0.46, -0.58, 0.46, -0.57, 0.7, -0.69, 0.47, -0.5, 0.66, -0.65, 0.47, -0.49, 0.52, -0.72, 0.7, -0.5, 0.49, -0.68, 0.83, -1, 1, -0.98, 0.94, -0.95, 0.96, -0.98, 0.99, -0.94, 0.94, -0.94, 0.98, -0.97, 0.95, -1, 0.94, -0.91, 0.97, -0.91, 0.95, -0.94, 1, -0.93, 0.98, -0.91, 0.97, -0.96, 0.97, -0.97, 1, -0.94, 0.99, -0.97, 0.97, -0.91, 0.98, -0.92, 0.94, -0.87, 0.99, -0.91, 0.91, -0.91, 0.93, -0.91, 0.86, -0.92, 0.83, -0.8, 0.94, -0.88, 0.94, -0.91, 0.93, -0.94, 0.91, -0.87, 0.93, -0.87, 0.91, -0.91, 0.92, -0.88, 0.91, -0.89, 0.86, -0.87, 0.91, -0.91, 0.92, -0.93, 0.9, -0.83, 0.91, -0.91, 0.87, -0.91, 0.8, -0.87, 0.91, -0.85, 0.87, -0.9, 0.9, -0.94, 0.91, -0.87, 0.88, -0.84, 0.83, -0.89, 0.94, -0.94, 0.92, -0.87, 0.86, -0.62, 0.73, -0.88, 0.5, -0.54, 0.43, -0.64, 0.66, -0.49, 0.47, -0.75, 0.6, -0.51, 0.61, -0.67, 0.63, -0.63, 0.65, -0.63, 0.59, -0.64, 0.62, -0.5, 0.63, -0.47, 0.54, -0.66, 0.72, -0.69, 0.71, -0.86, 0.91, -0.96, 0.98, -0.94, 0.96, -0.95, 0.95, -0.94, 0.94, -0.9, 0.92, -0.91, 0.97, -0.98, 0.95, -0.96, 0.91, -0.94, 1, -0.92, 0.98, -1, 0.91, -0.94, 0.91, -0.91, 0.95, -0.94, 0.98, -0.96, 0.97, -0.94, 0.92, -0.38, 0.57, -0.42, 0.44, -0.54, 0.63, -0.43, 0.54, -0.43, 0.5, -0.49, 0.46, -0.57, 0.55, -0.42, 0.61, -0.68, 0.57, -0.46, 0.58, -0.52, 0.54, -0.49, 0.55, -0.53, 0.53, -0.62, 0.47, -0.46, 0.38, -0.56, 0.65, -0.6, 0.65, -0.63, 0.76, -0.67, 0.79, -0.52, 0.58, -0.54, 0.65, -0.5, 0.68, -0.55, 0.56, -0.94, 0.92, -0.96, 0.95, -0.94, 0.94, -0.93, 0.94, -0.96, 0.92, -0.99, 0.95, -0.94, 0.93, -1, 0.94, -0.91, 0.91, -0.91, 0.91, -0.94, 0.94, -0.99, 0.96, -0.93, 0.94, -0.93, 0.95, -0.93, 0.95, -0.95, 0.96, -0.95, 0.97, -0.93, 0.9, -0.96, 0.94, -0.98, 0.94, -0.9, 0.93, -0.94, 0.93, -0.91, 0.94, -0.95, 0.94, -0.93, 0.94, -0.91, 0.91, -0.97, 0.93, -0.94, 0.94, -0.93, 0.93, -0.96, 0.97, -0.95, 0.94, -0.93, 0.95, -0.68, 0.65, -0.09, 0.09, -0.03, 0.04, -0.02, 0.02, -0.01, 0.01, 0, 0, 0, 0, 0, 0 ],
-      comments: [
-        {
-          user: 'Torrey84',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/1.jpg',
-          comment: 'Cum rem est qui ad.',
-          time: 67,
-        },
-        {
-          user: 'Lexie68',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/88.jpg',
-          comment: 'Nesciunt sed hic reprehenderit ea.',
-          time: 162,
-        },
-        {
-          user: 'Novella.Bernhard',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/80.jpg',
-          comment: 'Voluptates inventore ex iste quia est.',
-          time: 78,
-        },
-        {
-          user: 'Holden.Schaden',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/18.jpg',
-          comment: 'Sapiente ad esse.',
-          time: 166,
-        },
-        {
-          user: 'Elvera.Wehner58',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/23.jpg',
-          comment: 'Aut quia architecto laborum molestiae velit sapiente rem quasi eius.',
-          time: 75,
-        },
-        {
-          user: 'Herbert51',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/83.jpg',
-          comment: 'Nobis doloremque voluptatibus.',
-          time: 8,
-        },
-        {
-          user: 'Vita_Gislason37',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/41.jpg',
-          comment: 'Excepturi voluptas voluptate et voluptatem voluptatem.',
-          time: 16,
-        },
-        {
-          user: 'Devonte_Hamill',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/100.jpg',
-          comment: 'Aut enim dolore et tempora.',
-          time: 35,
-        },
-        {
-          user: 'Rubie.Schneider',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/41.jpg',
-          comment: 'Quia exercitationem omnis.',
-          time: 158,
-        },
-        {
-          user: 'Gladys66',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/31.jpg',
-          comment: 'Id dolorem dolorem.',
-          time: 60,
-        },
-        {
-          user: 'Terry80',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/32.jpg',
-          comment: 'Sit tenetur dolor id.',
-          time: 12,
-        },
-        {
-          user: 'Arvilla.Feeney',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/16.jpg',
-          comment: 'Modi ea sit a soluta et.',
-          time: 156,
-        },
-        {
-          user: 'Jaunita34',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/97.jpg',
-          comment: 'Itaque eum repudiandae dolores soluta et id quaerat explicabo.',
-          time: 216,
-        },
-        {
-          user: 'Taryn_Christiansen',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/77.jpg',
-          comment: 'Soluta quia animi ipsa.',
-          time: 178,
-        },
-        {
-          user: 'Antonia_Stokes',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/27.jpg',
-          comment: 'Ut quas hic accusantium consequatur.',
-          time: 160,
-        },
-        {
-          user: 'Skylar_Kovacek47',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/8.jpg',
-          comment: 'Rerum ab nostrum.',
-          time: 131,
-        },
-        {
-          user: 'Yasmeen_Reichert79',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/95.jpg',
-          comment: 'Qui consequatur neque accusantium incidunt quod non.',
-          time: 93,
-        },
-        {
-          user: 'Fabian_Buckridge',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/86.jpg',
-          comment: 'Doloremque ratione neque sunt veritatis illum culpa.',
-          time: 135,
-        },
-        {
-          user: 'Queenie55',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/58.jpg',
-          comment: 'Quis quisquam inventore inventore eos sequi ab.',
-          time: 93,
-        },
-        {
-          user: 'Bennett.Dooley',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/66.jpg',
-          comment: 'Quisquam possimus nobis.',
-          time: 155,
-        },
-        {
-          user: 'Dell90',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/88.jpg',
-          comment: 'Nulla omnis consequatur veniam reprehenderit aut quasi possimus expedita est.',
-          time: 203,
-        },
-        {
-          user: 'Rodolfo.Hagenes',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/86.jpg',
-          comment: 'Rerum incidunt perferendis rerum voluptatem et totam quo.',
-          time: 21,
-        },
-        {
-          user: 'Jett_Deckow',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/60.jpg',
-          comment: 'Nihil reprehenderit rerum porro consequatur ex eum corporis et.',
-          time: 11,
-        },
-        {
-          user: 'Prince46',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/67.jpg',
-          comment: 'Voluptatem voluptatibus soluta ut voluptas.',
-          time: 154,
-        },
-        {
-          user: 'Ericka_Halvorson90',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/89.jpg',
-          comment: 'Quia vitae aperiam voluptatibus.',
-          time: 208,
-        },
-        {
-          user: 'Margarita.Franecki',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/61.jpg',
-          comment: 'Dicta aut placeat nisi vel illum dolorem.',
-          time: 142,
-        },
-        {
-          user: 'Kara_Lueilwitz',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/18.jpg',
-          comment: 'Hic autem ex.',
-          time: 181,
-        },
-        {
-          user: 'Terrell.Erdman',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/82.jpg',
-          comment: 'Quia dicta aut corporis cupiditate suscipit totam sit dolorem debitis.',
-          time: 30,
-        },
-        {
-          user: 'Camden22',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/24.jpg',
-          comment: 'Nam et quibusdam.',
-          time: 42,
-        },
-        {
-          user: 'Kayla_Gerhold',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/2.jpg',
-          comment: 'Aut architecto et.',
-          time: 5,
-        },
-        {
-          user: 'Brittany_Deckow',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/7.jpg',
-          comment: 'Quae voluptas deserunt mollitia commodi sint id quasi praesentium ullam.',
-          time: 82,
-        },
-        {
-          user: 'Willy56',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/52.jpg',
-          comment: 'Nisi nobis repudiandae in.',
-          time: 108,
-        },
-        {
-          user: 'Marcelina_Kub',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/72.jpg',
-          comment: 'Ea iure quidem.',
-          time: 54,
-        },
-        {
-          user: 'Alva96',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/41.jpg',
-          comment: 'Sit qui sunt consectetur.',
-          time: 146,
-        },
-        {
-          user: 'Sophie.Hoeger',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/68.jpg',
-          comment: 'Numquam minus id.',
-          time: 205,
-        },
-        {
-          user: 'Misael.Aufderhar',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/98.jpg',
-          comment: 'Quos sint modi.',
-          time: 216,
-        },
-        {
-          user: 'Domenico40',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/55.jpg',
-          comment: 'Reprehenderit quo perspiciatis aut molestiae iusto sunt omnis explicabo blanditiis.',
-          time: 7,
-        },
-        {
-          user: 'Gunnar14',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/42.jpg',
-          comment: 'Earum voluptas sequi laboriosam.',
-          time: 144,
-        },
-        {
-          user: 'Bridgette54',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/91.jpg',
-          comment: 'Temporibus repellendus quidem ut tempore.',
-          time: 120,
-        },
-        {
-          user: 'Odie.Thompson',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/44.jpg',
-          comment: 'Ipsam incidunt enim praesentium autem aut harum saepe.',
-          time: 53,
-        },
-        {
-          user: 'Alanna99',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/49.jpg',
-          comment: 'Corporis ut vitae quis fugit a deserunt qui aut.',
-          time: 40,
-        },
-        {
-          user: 'Ora.Kulas',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/33.jpg',
-          comment: 'Quos ut autem veniam exercitationem eos sapiente natus molestiae unde.',
-          time: 165,
-        },
-        {
-          user: 'Haleigh_Weimann99',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/88.jpg',
-          comment: 'Iusto expedita omnis eos reiciendis labore et.',
-          time: 220,
-        },
-        {
-          user: 'Clinton.Bahringer14',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/26.jpg',
-          comment: 'Est voluptate unde id qui tenetur nulla voluptate.',
-          time: 105,
-        },
-        {
-          user: 'Aurelio18',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/71.jpg',
-          comment: 'Rerum dolore inventore maxime similique soluta aut molestiae ut eveniet.',
-          time: 7,
-        },
-        {
-          user: 'Javier1',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/41.jpg',
-          comment: 'Consequatur fugiat illo numquam et aut ea minus.',
-          time: 68,
-        },
-        {
-          user: 'Chelsey25',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/92.jpg',
-          comment: 'Voluptate enim enim temporibus quae.',
-          time: 104,
-        },
-        {
-          user: 'Marco_Casper5',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/50.jpg',
-          comment: 'Esse illum aut harum nobis consequatur iste dolores dolor.',
-          time: 199,
-        },
-        {
-          user: 'Eloisa46',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/17.jpg',
-          comment: 'Rerum animi voluptatibus magni non cumque sunt alias eveniet.',
-          time: 149,
-        },
-        {
-          user: 'Janae20',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/12.jpg',
-          comment: 'Nisi quas quas nobis odit dolorem.',
-          time: 11,
-        },
-        {
-          user: 'Keon72',
-          photo: 'https://kleiomainplayer.s3.us-west-1.amazonaws.com/covers/20.jpg',
-          comment: 'Officia sapiente nulla est nesciunt.',
-          time: 226,
-        },
-      ],
-    }, () => {
-      const gradient = document.getElementsByClassName('main')[0];
-      if (gradient) {
-        gradient.style.backgroundImage = `linear-gradient(to right, ${this.state.color1}, ${this.state.color2})`;
-      }
-      // determine peak for the current song
-      const { peaks } = this.state;
-      const posPeaks = [];
-      const negPeaks = [];
-      for (let i = 0; i < peaks.length; i += 2) {
-        if (i + 1 < peaks.length) {
-          posPeaks.push(Math.floor(peaks[i + 1] * 50));
-          negPeaks.push(Math.floor(peaks[i] * 50) * -1);
-        }
-      }
-      this.setState({
-        posPeaks,
-        negPeaks,
-      });
-    });
+    this.getSong();
   }
 
-  getSongs() {
+  getSong() {
     Axios.get('/api/songs')
       .then((data) => {
-        console.log(data.data);
+        var randomIndex = Math.floor(Math.random() * 100);
+        const songData = data.data[randomIndex];
+        const comments = songData.comments.map((comment)=> {
+          comment.click = false;
+          comment.hover = false;
+          return comment;
+        })
+        this.setState({
+        artist: songData.artist,
+        genre: songData.genre,
+        title: songData.title,
+        photo: songData.photo,
+        color1: songData.color1,
+        color2: songData.color2,
+        duration: songData.duration,
+        link: songData.link,
+        posted: songData.posted,
+        comments: comments,
+        peaks: songData.peaks
+        }, () => {
+          const gradient = document.getElementsByClassName('main')[0];
+          if (gradient) {
+            gradient.style.backgroundImage = `linear-gradient(to right, ${this.state.color1}, ${this.state.color2})`;
+          }
+          // determine peak for the current song
+          const { peaks } = this.state;
+          const posPeaks = [];
+          const negPeaks = [];
+          for (let i = 0; i < peaks.length; i += 2) {
+            if (i + 1 < peaks.length) {
+              posPeaks.push(Math.floor(peaks[i + 1] * 50));
+              negPeaks.push(Math.floor(peaks[i] * 50) * -1);
+            }
+          }
+          this.setState({
+            posPeaks,
+            negPeaks,
+          });
+        })
       })
       .catch((err) => {
         console.log('error getting songs');
