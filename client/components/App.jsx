@@ -2,13 +2,23 @@
 
 import React from 'react';
 import Axios from 'axios';
-import styled from 'styled-components';
-import $ from 'jquery';
+import styled, { createGlobalStyle } from 'styled-components';
 import InfoLeft from './InfoLeft.jsx';
 import InfoRight from './InfoRight.jsx'
 import Audio from './Audio.jsx';
 import Comments from './Comments.jsx';
 import Waveform from './Waveform.jsx';
+
+const GlobalStyle = createGlobalStyle`
+  *:focus {
+    outline: none;
+  }
+
+  body {
+    font-family: Verdana, Tahoma, sans-serif;
+    font-weight: 100;
+  }
+`;
 
 const Nav = styled.div`
   width: 1240px;
@@ -86,23 +96,23 @@ class App extends React.Component {
       .then((data) => {
         var randomIndex = Math.floor(Math.random() * 100);
         const songData = data.data[randomIndex];
-        const comments = songData.comments.map((comment)=> {
+        const comments = songData.comments.map((comment) => {
           comment.click = false;
           comment.hover = false;
           return comment;
         })
         this.setState({
-        artist: songData.artist,
-        genre: songData.genre,
-        title: songData.title,
-        photo: songData.photo,
-        color1: songData.color1,
-        color2: songData.color2,
-        duration: songData.duration,
-        link: songData.link,
-        posted: songData.posted,
-        comments: comments,
-        peaks: songData.peaks
+          artist: songData.artist,
+          genre: songData.genre,
+          title: songData.title,
+          photo: songData.photo,
+          color1: songData.color1,
+          color2: songData.color2,
+          duration: songData.duration,
+          link: songData.link,
+          posted: songData.posted,
+          comments: comments,
+          peaks: songData.peaks
         }, () => {
           const gradient = document.getElementsByClassName('main')[0];
           if (gradient) {
@@ -159,7 +169,7 @@ class App extends React.Component {
     event.preventDefault();
     const audio = document.getElementsByTagName('audio')[0];
     let { click, current, posPeaks, duration } = this.state;
-    const progressionPerQuarterSec = posPeaks.length/duration/4;
+    const progressionPerQuarterSec = posPeaks.length / duration / 4;
     const newCurrent = current + progressionPerQuarterSec;
     let progressPos = document.getElementsByClassName('progressPos')[Math.floor(current)];
     let progressNeg = document.getElementsByClassName('progressNeg')[Math.floor(current)];
@@ -247,8 +257,8 @@ class App extends React.Component {
     });
     for (let i = 0; i < users.length; i++) {
       if (target !== i) {
-       users[i].style.opacity = '0.3';
-       users[i].style.pointerEvents = 'none';
+        users[i].style.opacity = '0.3';
+        users[i].style.pointerEvents = 'none';
       }
     }
     const audio = document.getElementsByTagName('audio')[0];
@@ -268,9 +278,9 @@ class App extends React.Component {
     if (click) {
       const users = document.getElementsByClassName('userPhoto');
       for (let i = 0; i < users.length; i++) {
-         users[i].style.opacity = '1';
-         users[i].style.borderRadius = '0';
-         users[i].style.pointerEvents = 'auto';
+        users[i].style.opacity = '1';
+        users[i].style.borderRadius = '0';
+        users[i].style.pointerEvents = 'auto';
       }
       const audio = document.getElementsByTagName('audio')[0];
       for (let i = 0; i < Math.floor(current); i++) {
@@ -284,28 +294,30 @@ class App extends React.Component {
       this.setState({
         click: false,
         comments: updateComments,
-      })
+      });
     }
   }
 
   handlePhotoCoverClick(event) {
     event.preventDefault();
-
   }
 
   render() {
     const { artist, genre, title, photo, duration, link, posted, comments, progress, began, peaks, posPeaks, negPeaks } = this.state;
     return (
-      <Nav className="main" onClick={this.handleClickOutside}>
-        <PlayButton className="playButton" onClick={this.handlePlay} />
-        <InfoLeft artist={artist} title={title} />
-        <InfoRight photo={photo} posted={posted} genre={genre} handlePhotoCoverClick={this.handlePhotoCoverClick} />
-        <NavMusic>
-          <Audio link={link} began={began} progress={progress} duration={duration} handleProgression={this.handleProgression} />
-          <Waveform posPeaks={posPeaks} negPeaks={negPeaks} />
-          <Comments comments={comments} duration={duration} handleCommentClick={this.handleCommentClick} handleCommentHoverIn={this.handleCommentHoverIn} handleCommentHoverOut={this.handleCommentHoverOut} />
-        </NavMusic>
-      </Nav>
+      <div>
+        <GlobalStyle />
+        <Nav className="main" onClick={this.handleClickOutside}>
+          <PlayButton className="playButton" onClick={this.handlePlay} />
+          <InfoLeft artist={artist} title={title} />
+          <InfoRight photo={photo} posted={posted} genre={genre} handlePhotoCoverClick={this.handlePhotoCoverClick} />
+          <NavMusic>
+            <Audio link={link} began={began} progress={progress} duration={duration} handleProgression={this.handleProgression} />
+            <Waveform posPeaks={posPeaks} negPeaks={negPeaks} />
+            <Comments comments={comments} duration={duration} handleCommentClick={this.handleCommentClick} handleCommentHoverIn={this.handleCommentHoverIn} handleCommentHoverOut={this.handleCommentHoverOut} />
+          </NavMusic>
+        </Nav>
+      </div>
     );
   }
 }
