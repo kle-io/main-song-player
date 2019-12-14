@@ -92,7 +92,7 @@ class App extends React.Component {
   }
 
   getSong() {
-    Axios.get('/api/songs')
+    Axios.get('/api/mainplayer/songs')
       .then((data) => {
         var randomIndex = Math.floor(Math.random() * 100);
         const songData = data.data[randomIndex];
