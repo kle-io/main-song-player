@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  database:
+    image: mongo:latest
+
+  mongo-seed:
+    build: .
+    command: 'npm run db:setup'
+
+  main-player:
+    build: .
+    depends_on:
+      - 'database'
+    ports:
+      - '3001:3001'

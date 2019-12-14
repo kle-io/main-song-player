@@ -5,7 +5,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Songs = require('./db/Song.js');
 
-
 const app = express();
 const port = 3001;
 
@@ -23,7 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/songs', (req, res) => {
+app.get('/api/mainplayer/songs', (req, res) => {
   Songs.getSong((err, data) => {
     if (err) {
       console.log('error getting from DB');
