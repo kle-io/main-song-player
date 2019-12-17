@@ -1,8 +1,8 @@
 import React from 'react';
 import Moment from 'moment';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
-const NavRight = styled.div`
+const NavRight = window.styled.div`
 height: 340px;
 width: 340px;
 display: inline-block;
@@ -11,7 +11,7 @@ top: 20px;
 right: 20px;
 `;
 
-const SongImg = styled.img`
+const SongImg = window.styled.img`
 width: 100%;
 height: 100%;
 object-fit: cover;
@@ -21,7 +21,7 @@ box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
 }
 `;
 
-const NavInfo = styled.div`
+const NavInfo = window.styled.div`
 width: 150px;
 height: 68px;
 margin-right: 0;
@@ -31,20 +31,19 @@ right: 370px;
 bottom: 338px;
 `;
 
-const Posted = styled.span`
+const Posted = window.styled.span`
 position: absolute;
 right: 0;
 font-size: 16px;
 color: white;
 `;
 
-const Genre = styled.a`
+const Genre = window.styled.a`
 font-size: 15px;
 color: white;
 border-radius: 15px;
 padding: 3px 7px;
 background-color: #999999ba;
-text-align: left;
 position: absolute;
 right: 0;
 bottom: 0;

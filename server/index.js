@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const Songs = require('./db/Song.js');
 
 const app = express();
@@ -10,8 +11,10 @@ const port = 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(compression());
 
 app.use('/', express.static(path.join(__dirname, '../public/')));
+app.use('/:id', express.static(path.join(__dirname, '../public/')));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -22,8 +25,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/mainplayer/songs', (req, res) => {
-  Songs.getSong((err, data) => {
+app.get('/api/mainplayer/songs/:id', (req, res) => {
+  Songs.getSong(req.params.id, (err, data) => {
     if (err) {
       console.log('error getting from DB');
       res.status(400).send();

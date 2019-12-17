@@ -2,14 +2,14 @@
 
 import React from 'react';
 import Axios from 'axios';
-import styled, { createGlobalStyle } from 'styled-components';
+// import styled, { createGlobalStyle } from 'styled-components';
 import InfoLeft from './InfoLeft.jsx';
 import InfoRight from './InfoRight.jsx'
 import Audio from './Audio.jsx';
 import Comments from './Comments.jsx';
 import Waveform from './Waveform.jsx';
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = window.styled.createGlobalStyle`
   *:focus {
     outline: none;
   }
@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Nav = styled.div`
+const Nav = window.styled.div`
   width: 1240px;
   height: 380px;
   position: relative;
@@ -34,8 +34,8 @@ const Nav = styled.div`
   opacity: 0.9;
 `;
 
-const PlayButton = styled.button`
-background-image: url("play.png");
+const PlayButton = window.styled.button`
+background-image: url(https://kleiomainplayer.s3-us-west-1.amazonaws.com/play.png);
 background-color: transparent;
 background-size: 100%;
 background-repeat: no-repeat;
@@ -47,7 +47,7 @@ right: 5px;
 bottom: 5px;
 `;
 
-const NavMusic = styled.div`
+const NavMusic = window.styled.div`
 width: 820px;
 height: 100px;
 position: absolute;
@@ -88,14 +88,17 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getSong();
+    const pathNum = location.pathname.split("/")[1];
+    this.getSong(pathNum);
   }
 
-  getSong() {
-    Axios.get('/api/mainplayer/songs')
+  getSong(songNum) {
+    if (typeof (songNum) !== 'number') {
+      songNum = Math.floor(Math.random() * 100);
+    }
+    Axios.get(`/api/mainplayer/songs/${songNum}`)
       .then((data) => {
-        var randomIndex = Math.floor(Math.random() * 100);
-        const songData = data.data[randomIndex];
+        const songData = data.data;
         const comments = songData.comments.map((comment) => {
           comment.click = false;
           comment.hover = false;
@@ -154,10 +157,10 @@ class App extends React.Component {
     }
     if (play) {
       audio.play();
-      playButton.style.backgroundImage = 'url(pause.png)';
+      playButton.style.backgroundImage = 'url(https://kleiomainplayer.s3-us-west-1.amazonaws.com/pause.png)';
     } else {
       audio.pause();
-      playButton.style.backgroundImage = 'url(play.png)';
+      playButton.style.backgroundImage = 'url(https://kleiomainplayer.s3-us-west-1.amazonaws.com/play.png)';
     }
     this.setState({
       play: !play,
@@ -178,7 +181,7 @@ class App extends React.Component {
       progressNeg.style.backgroundImage = 'linear-gradient(#ff4c00db, #e87422db)';
     } else if (click) {
       progressPos.style.backgroundImage = 'linear-gradient(#e87422db, #ff4c00db)';
-      progressNeg.style.backgroundImage = 'linear-gradient(#e87422db, #746153c9)'
+      progressNeg.style.backgroundImage = 'linear-gradient(#e87422db, #746153c9)';
     }
     const { comments, passed } = this.state;
     const updateComments = comments.map((comment) => {
