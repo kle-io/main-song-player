@@ -1,16 +1,18 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-console */
+const mongoose = require('mongoose');
 const db = require('./index.js');
 const Song = require('./Song.js');
 const sampleData = require('./sampleData.js');
 
-
 const insertSampleSongs = () => {
   Song.create(sampleData.sampleData)
-    .then(() => db.disconnect());
+  .then(() => db.disconnect());
 };
 
-insertSampleSongs();
+mongoose.connect('mongodb://database/kleiomainplayer', { useNewUrlParser: true, useUnifiedTopology: true }, () => mongoose.connection.db.dropDatabase()
+.then(() => insertSampleSongs()));
+
 
 // ************** WRITING FILE: ONLY USE IF 'sampleData.js' DOES NOT EXIST ********************
 

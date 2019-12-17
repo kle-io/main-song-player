@@ -23,8 +23,8 @@ const songSchema = new mongoose.Schema({
 
 const Song = mongoose.model('Song', songSchema);
 
-const getSong = (callback) => {
-  Song.find((err, data) => {
+const getSong = (songNum, callback) => {
+  Song.findOne({ link : `https://kleiomainplayer.s3.us-west-1.amazonaws.com/songs/${songNum}.mp3` }, (err, data) => {
     if (err) {
       console.log('error finding data');
     } else {

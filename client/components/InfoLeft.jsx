@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
-const NavLeft = styled.div`
+const NavLeft = window.styled.div`
 width: 575px;
 height: 68px;
 position: relative;
@@ -9,7 +9,7 @@ left: 70px;
 bottom: 75px;
 `;
 
-const Artist = styled.a`
+const Artist = window.styled.a`
 font-size: 16px;
 color: #ccc;
 background-color: rgba(0,0,0,0.8);
@@ -22,15 +22,16 @@ box-sizing: content-box;
 }
 `;
 
-const Title = styled.span`
+const Title = window.styled.span`
+position: absolute;
+display: inline;
 font-size: 24px;
 color: white;
 background-color: rgba(0,0,0,0.8);
 padding: 4px 5px;
-position: absolute;
 box-sizing: content-box;
-bottom: 0px;
-left: 0;
+max-width: 575px;
+top: 32px;
 `;
 
 const InfoLeft = ({ artist, title }) => {
