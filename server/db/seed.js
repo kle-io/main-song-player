@@ -10,7 +10,7 @@ const insertSampleSongs = () => {
   .then(() => db.disconnect());
 };
 
-mongoose.connect('mongodb://database/kleiomainplayer', { useNewUrlParser: true, useUnifiedTopology: true }, () => mongoose.connection.db.dropDatabase()
+mongoose.connect('mongodb://localhost/kleiomainplayer', { useNewUrlParser: true, useUnifiedTopology: true }, () => mongoose.connection.db.dropDatabase()
 .then(() => insertSampleSongs()));
 
 
