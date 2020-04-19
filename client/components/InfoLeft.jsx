@@ -1,7 +1,7 @@
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-const NavLeft = window.styled.div`
+const NavLeft = styled.div`
 width: 575px;
 height: 68px;
 position: relative;
@@ -9,7 +9,7 @@ left: 70px;
 bottom: 75px;
 `;
 
-const Artist = window.styled.a`
+const Artist = styled.a`
 font-size: 16px;
 color: #ccc;
 background-color: rgba(0,0,0,0.8);
@@ -22,7 +22,7 @@ box-sizing: content-box;
 }
 `;
 
-const Title = window.styled.span`
+const Title = styled.span`
 position: absolute;
 display: inline;
 font-size: 24px;

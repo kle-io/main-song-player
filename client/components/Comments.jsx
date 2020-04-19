@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-const NavComments = window.styled.div`
+const NavComments = styled.div`
 position: absolute;
 top: 50px;
 font-size: 11px;
 `;
 
-const UserImg = window.styled.img`
+const UserImg = styled.img`
 z-index: 20;
 width: 20px;
 height: 20px;
@@ -18,7 +18,7 @@ position: relative;
 left: ${({ time, duration }) => `${Math.floor((time / duration) * 820)}px`};
 `;
 
-const Comment = window.styled.div`
+const Comment = styled.div`
 position: relative;
 color: white;
 top: 30px;
@@ -30,11 +30,11 @@ text-align: ${({ time, duration }) => `${Math.floor((time / duration) * 820) > 4
 left: ${({ time, duration, length }) => `${Math.floor((time / duration) * 820) > 410 ? Math.floor((time / duration) * 820) - 5.7 * (length > 30 ? 30 : length) : Math.floor((time / duration) * 820)}px`};
 `;
 
-const User = window.styled(Comment)`
+const User = styled(Comment)`
 color: #ff4c00;
 `;
 
-const Comments = ({ comments, duration, handleCommentHoverIn, handleCommentHoverOut, handleCommentClick }) => {
+const Comments = ({ comments, duration, handleCommentHover, handleCommentClick }) => {
   return (
     <div>
       {comments.map((comment) => {
@@ -42,7 +42,7 @@ const Comments = ({ comments, duration, handleCommentHoverIn, handleCommentHover
         const length = comment.comment.length;
         return (
           <NavComments key={comment.user}>
-           <UserImg className="userPhoto" src={comment.photo} alt="user" time={time} duration={duration} id={comment.user} onClick={handleCommentClick} onMouseOver={handleCommentHoverIn} onMouseOut={handleCommentHoverOut} />
+           <UserImg className="userPhoto" src={comment.photo} alt="user" time={time} duration={duration} id={comment.user} onClick={handleCommentClick} onMouseOver={handleCommentHover} onMouseOut={handleCommentHover} />
             {comment.hover || comment.click ? <User time={time} duration={duration} length={length} >{`${comment.user}`}</User> : ''}
             {comment.hover || comment.click ? <Comment time={time} duration={duration} length={length} >{`${comment.comment}`}</Comment> : ''}
           </NavComments>

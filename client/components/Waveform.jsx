@@ -1,19 +1,19 @@
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-const NavPos = window.styled.div`
+const NavPos = styled.div`
 position: absolute;
 top: 0px;
 height: 50px;
 max-width: 820px;
 `;
-const NavNeg = window.styled.div`
+const NavNeg = styled.div`
 position: absolute;
 bottom: 0px;
 height: 50px;
 max-width: 820px;
 `;
-const WavePos = window.styled.div`
+const WavePos = styled.div`
 vertical-align: bottom;
 display: inline-block;
 box-sizing: border-box;
@@ -21,7 +21,7 @@ width: ${({ posPeaks }) => `${820 / posPeaks.length}px`};
 height: ${({ peakIndex, posPeaks }) => `${posPeaks[peakIndex]}px`};
 border: .1px solid #746153c9;
 `;
-const WaveNeg = window.styled.div`
+const WaveNeg = styled.div`
 vertical-align: top;
 display: inline-block;
 box-sizing: border-box;

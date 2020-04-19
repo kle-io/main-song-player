@@ -1,58 +1,15 @@
+/* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 
 import React from 'react';
 import Axios from 'axios';
-// import styled, { createGlobalStyle } from 'styled-components';
 import InfoLeft from './InfoLeft.jsx';
-import InfoRight from './InfoRight.jsx'
+import InfoRight from './InfoRight.jsx';
 import Audio from './Audio.jsx';
 import Comments from './Comments.jsx';
 import Waveform from './Waveform.jsx';
-
-const GlobalStyle = window.styled.createGlobalStyle`
-  *:focus {
-    outline: none;
-  }
-
-  body {
-    font-family: Verdana, Tahoma, sans-serif;
-    font-weight: 100;
-  }
-`;
-
-const Nav = window.styled.div`
-  width: 1240px;
-  height: 380px;
-  position: relative;
-  margin: auto;
-  top: 40px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  box-sizing: border-box;
-  padding: 30px 560px 20px 30px;
-  opacity: 0.9;
-`;
-
-const PlayButton = window.styled.button`
-background-image: url(https://kleiomainplayer.s3-us-west-1.amazonaws.com/play.png);
-background-color: transparent;
-background-size: 100%;
-background-repeat: no-repeat;
-width: 70px;
-height: 70px;
-border: none;
-position: relative;
-right: 5px;
-bottom: 5px;
-`;
-
-const NavMusic = window.styled.div`
-width: 820px;
-height: 100px;
-position: absolute;
-bottom: 40px;
-`;
+import { GlobalStyle, Nav, PlayButton, NavMusic } from './styles/AppStyles.jsx';
+import { orange, lightOrange, taupe } from './styles/Colors.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -79,67 +36,77 @@ class App extends React.Component {
     };
     this.getSong = this.getSong.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
+    this.handlePeaks = this.handlePeaks.bind(this);
     this.handleProgression = this.handleProgression.bind(this);
-    this.handleCommentHoverIn = this.handleCommentHoverIn.bind(this);
-    this.handleCommentHoverOut = this.handleCommentHoverOut.bind(this);
+    this.handleCommentsDuringProgression = this.handleCommentsDuringProgression.bind(this);
+    this.handleWaveformDuringProgression = this.handleWaveformDuringProgression.bind(this);
+    this.handleCommentHover = this.handleCommentHover.bind(this);
     this.handleCommentClick = this.handleCommentClick.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handlePhotoCoverClick = this.handlePhotoCoverClick.bind(this);
   }
 
   componentDidMount() {
+    // check song id and get song data
     const pathNum = location.pathname.split("/")[1];
     this.getSong(pathNum);
   }
 
   getSong(songNum) {
+    // if no song id, choose a random song
     if (typeof (songNum) !== 'number') {
       songNum = Math.floor(Math.random() * 100);
     }
     Axios.get(`/api/mainplayer/songs/${songNum}`)
       .then((data) => {
-        const songData = data.data;
-        const comments = songData.comments.map((comment) => {
+        const { artist, genre, title, photo, color1, color2, duration, link, posted, peaks } = data.data;
+        const comments = data.data.comments.map((comment) => {
           comment.click = false;
           comment.hover = false;
           return comment;
-        })
+        });
         this.setState({
-          artist: songData.artist,
-          genre: songData.genre,
-          title: songData.title,
-          photo: songData.photo,
-          color1: songData.color1,
-          color2: songData.color2,
-          duration: songData.duration,
-          link: songData.link,
-          posted: songData.posted,
-          comments: comments,
-          peaks: songData.peaks
-        }, () => {
-          const gradient = document.getElementsByClassName('main')[0];
-          if (gradient) {
-            gradient.style.backgroundImage = `linear-gradient(to right, ${this.state.color1}, ${this.state.color2})`;
-          }
-          // determine peak for the current song
-          const { peaks } = this.state;
-          const posPeaks = [];
-          const negPeaks = [];
-          for (let i = 0; i < peaks.length; i += 2) {
-            if (i + 1 < peaks.length) {
-              posPeaks.push(Math.floor(peaks[i + 1] * 50));
-              negPeaks.push(Math.floor(peaks[i] * 50) * -1);
-            }
-          }
-          this.setState({
-            posPeaks,
-            negPeaks,
-          });
-        })
-      })
-      .catch((err) => {
-        console.log('error getting songs');
+          artist,
+          genre,
+          title,
+          photo,
+          color1,
+          color2,
+          duration,
+          link,
+          posted,
+          comments,
+          peaks,
+        });
+      }).then(() => {
+        const { color1, color2 } = this.state;
+        // set background gradient
+        const gradient = document.getElementsByClassName('main')[0];
+        if (gradient) {
+          gradient.style.backgroundImage = `linear-gradient(to right, ${color1}, ${color2})`;
+        }
+        // Set positive and negative peaks for current song
+        this.handlePeaks();
+      }).catch((err) => {
+        console.log(`error getting songs: ${err}`);
       });
+  }
+
+  handlePeaks() {
+    const { peaks } = this.state;
+    const posPeaks = [];
+    const negPeaks = [];
+    // separate postive and negative peaks
+    for (let i = 0; i < peaks.length; i += 2) {
+      if (i + 1 < peaks.length) {
+        posPeaks.push(Math.floor(peaks[i + 1] * 50));
+        negPeaks.push(Math.floor(peaks[i] * 50) * -1);
+      }
+    }
+    this.setState({
+      posPeaks,
+      negPeaks,
+    });
   }
 
   handlePlay(event) {
@@ -150,15 +117,19 @@ class App extends React.Component {
     const progressPos = document.getElementsByClassName('progressPos')[0];
     const progressNeg = document.getElementsByClassName('progressNeg')[0];
     if (!click) {
-      progressPos.style.backgroundImage = 'linear-gradient(#e87422db, #ff4c00db)';
-      progressNeg.style.backgroundImage = 'linear-gradient(#ff4c00db, #e87422db)';
+      // change first pos and neg peak to fill color on play
+      progressPos.style.backgroundImage = `linear-gradient(${lightOrange}, ${orange})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${orange}, ${lightOrange})`;
     } else {
-      progressNeg.style.backgroundImage = 'linear-gradient(#e87422db, #746153c9)';
+      // if comment is clicked, change first neg peak to fill color on play to lighter color
+      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${taupe})`;
     }
     if (play) {
+      // on play click, start song and change button to pause img
       audio.play();
       playButton.style.backgroundImage = 'url(https://kleiomainplayer.s3-us-west-1.amazonaws.com/pause.png)';
     } else {
+      // on pause click, pause song and change button to play img
       audio.pause();
       playButton.style.backgroundImage = 'url(https://kleiomainplayer.s3-us-west-1.amazonaws.com/play.png)';
     }
@@ -171,37 +142,17 @@ class App extends React.Component {
   handleProgression(event) {
     event.preventDefault();
     const audio = document.getElementsByTagName('audio')[0];
-    let { click, current, posPeaks, duration } = this.state;
-    const progressionPerQuarterSec = posPeaks.length / duration / 4;
-    const newCurrent = current + progressionPerQuarterSec;
-    let progressPos = document.getElementsByClassName('progressPos')[Math.floor(current)];
-    let progressNeg = document.getElementsByClassName('progressNeg')[Math.floor(current)];
-    if (!click && Math.floor(current)) {
-      progressPos.style.backgroundImage = 'linear-gradient(#e87422db, #ff4c00db)';
-      progressNeg.style.backgroundImage = 'linear-gradient(#ff4c00db, #e87422db)';
-    } else if (click) {
-      progressPos.style.backgroundImage = 'linear-gradient(#e87422db, #ff4c00db)';
-      progressNeg.style.backgroundImage = 'linear-gradient(#e87422db, #746153c9)';
-    }
-    const { comments, passed } = this.state;
-    const updateComments = comments.map((comment) => {
-      if ((Math.floor(audio.currentTime) > comment.time)) {
-        comment.hover = false;
-        return comment;
-      }
-      if (Math.floor(audio.currentTime) === comment.time) {
-        comment.hover = true;
-        return comment;
-      }
-      return comment;
-    })
-
+    // track duration time of song
     let sec = parseInt(audio.currentTime % 60, 0);
     const min = parseInt((audio.currentTime / 60) % 60, 0);
     if (sec.toString().length === 1) {
       sec = `0${sec}`;
     }
-
+    // track waveform progression
+    const { newCurrent } = this.handleWaveformDuringProgression(audio);
+    // track comment progression
+    const { updateComments } = this.handleCommentsDuringProgression(audio);
+    // set current song duration time, waveform progression, and comment progression
     this.setState({
       progress: `${min}:${sec}`,
       comments: updateComments,
@@ -209,32 +160,64 @@ class App extends React.Component {
     });
   }
 
-  handleCommentHoverIn(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const user = event.target.id;
-    event.target.style.borderRadius = '20px';
+  handleWaveformDuringProgression() {
+    const { click, current, posPeaks, duration } = this.state;
+    // audio tag current time event handler is triggered every quarter sec
+    // find number of peaks that need to be changed per quarter sec in relation to duration of song
+    const progressionPerQuarterSec = posPeaks.length / duration / 4;
+    // track current progress by adding new progress to the old current
+    const newCurrent = current + progressionPerQuarterSec;
+    // track currrent peaks based on current progress
+    const progressPos = document.getElementsByClassName('progressPos')[Math.floor(current)];
+    const progressNeg = document.getElementsByClassName('progressNeg')[Math.floor(current)];
+    if (!click && Math.floor(current)) {
+      // when comments are not clicked and current progress is not 0, color in current peaks
+      progressPos.style.backgroundImage = `linear-gradient(${lightOrange}, ${orange})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${orange}, ${lightOrange})`;
+    } else if (click) {
+      // when comments are clicked, color in current peaks with negative peaks being lighter
+      progressPos.style.backgroundImage = `linear-gradient(${lightOrange}, ${orange})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${taupe})`;
+    }
+    return { newCurrent };
+  }
+
+  handleCommentsDuringProgression(audio) {
     const { comments } = this.state;
+    // on progression of song, track comment time
     const updateComments = comments.map((comment) => {
-      if (comment.user === user) {
+      // if comment time has passed, hide comment
+      if ((Math.floor(audio.currentTime) > comment.time)) {
+        comment.hover = false;
+        return comment;
+      }
+      // When comment time is same as song progression, show comment
+      if (Math.floor(audio.currentTime) === comment.time) {
         comment.hover = true;
         return comment;
       }
       return comment;
     });
-    this.setState({
-      comments: updateComments,
-    });
+    return { updateComments };
   }
 
-  handleCommentHoverOut(event) {
+  handleCommentHover(event) {
     event.preventDefault();
+    event.stopPropagation();
+    // track user on hover
     const user = event.target.id;
-    event.target.style.borderRadius = '0';
-    const { comments } = this.state;
+    const { comments, click } = this.state;
     const updateComments = comments.map((comment) => {
+      // find user comment that matches on hover user and show comment
       if (comment.user === user) {
-        comment.hover = false;
+        comment.hover = !comment.hover;
+        if (comment.hover === true) {
+          // change user image from sqaure to circle on hover in
+          event.target.style.borderRadius = '20px';
+        } else if (!click) {
+          // change user image from circle to square on hover out if user was not clicked
+          event.target.style.borderRadius = '0';
+        }
         return comment;
       }
       return comment;
@@ -246,28 +229,33 @@ class App extends React.Component {
 
   handleCommentClick(event) {
     event.preventDefault();
+    // track user on click
     const user = event.target.id;
+    // track all users photos
     const users = document.getElementsByClassName('userPhoto');
     const { comments, current } = this.state;
     let target;
     const updateComments = comments.map((comment, index) => {
+      // find user comment that matches on click, track index, change user image to circle, and show comment
       if (comment.user === user) {
         comment.click = true;
+        event.target.style.borderRadius = '20px';
         target = index;
         return comment;
       }
       return comment;
     });
     for (let i = 0; i < users.length; i++) {
+      // for every user that is not clicked, lower photo opacity and turn off hover
       if (target !== i) {
         users[i].style.opacity = '0.3';
         users[i].style.pointerEvents = 'none';
       }
     }
-    const audio = document.getElementsByTagName('audio')[0];
+    // change all negative peaks up to the current peak to be lighter
     for (let i = 0; i < Math.floor(current); i++) {
       const progressNeg = document.getElementsByClassName('progressNeg')[i];
-      progressNeg.style.backgroundImage = 'linear-gradient(#e87422db, #746153c9)'
+      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${taupe})`;
     }
     this.setState({
       comments: updateComments,
@@ -278,18 +266,21 @@ class App extends React.Component {
   handleClickOutside(event) {
     event.preventDefault();
     const { click, current, comments } = this.state;
+    // if comment has been clicked
     if (click) {
       const users = document.getElementsByClassName('userPhoto');
+      // change all users back to regular opacity, with user photos back to squares, and hoverablity available
       for (let i = 0; i < users.length; i++) {
         users[i].style.opacity = '1';
         users[i].style.borderRadius = '0';
         users[i].style.pointerEvents = 'auto';
       }
-      const audio = document.getElementsByTagName('audio')[0];
+      // change all negative peaks to be regular color
       for (let i = 0; i < Math.floor(current); i++) {
         const progressNeg = document.getElementsByClassName('progressNeg')[i];
-        progressNeg.style.backgroundImage = 'linear-gradient(#ff4c00db, #e87422db)';
+        progressNeg.style.backgroundImage = `linear-gradient(${orange}, ${lightOrange})`;
       }
+      // restore all comments to be unclicked
       const updateComments = comments.map((comment, index) => {
         comment.click = false;
         return comment;
@@ -306,7 +297,8 @@ class App extends React.Component {
   }
 
   render() {
-    const { artist, genre, title, photo, duration, link, posted, comments, progress, began, peaks, posPeaks, negPeaks } = this.state;
+    const { artist, genre, title, photo, duration, link, posted,
+      comments, progress, began, posPeaks, negPeaks } = this.state;
     return (
       <div>
         <GlobalStyle />
@@ -317,7 +309,7 @@ class App extends React.Component {
           <NavMusic>
             <Audio link={link} began={began} progress={progress} duration={duration} handleProgression={this.handleProgression} />
             <Waveform posPeaks={posPeaks} negPeaks={negPeaks} />
-            <Comments comments={comments} duration={duration} handleCommentClick={this.handleCommentClick} handleCommentHoverIn={this.handleCommentHoverIn} handleCommentHoverOut={this.handleCommentHoverOut} />
+            <Comments comments={comments} duration={duration} handleCommentClick={this.handleCommentClick} handleCommentHover={this.handleCommentHover} />
           </NavMusic>
         </Nav>
       </div>
