@@ -21,6 +21,9 @@ width: 20px;
 height: 20px;
 background-image: 100%;
 position: relative;
+&:hover {
+  cursor: pointer;
+}
 left: ${({ time, duration }) => `${commentLocation(time, duration)}px`};
 `;
 

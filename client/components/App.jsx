@@ -8,8 +8,9 @@ import InfoRight from './InfoRight.jsx';
 import Audio from './Audio.jsx';
 import Comments from './Comments.jsx';
 import Waveform from './Waveform.jsx';
+import CoverModal from './CoverModal.jsx';
 import { GlobalStyle, Nav, PlayButton, NavMusic } from './styles/AppStyles.jsx';
-import { orange, lightOrange, taupe } from './styles/Colors.jsx';
+import { orange, lightOrange, taupe, lightTaupe } from './styles/Colors.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class App extends React.Component {
       negPeaks: [],
       click: false,
       current: 0,
+      modal: false,
     };
     this.getSong = this.getSong.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
@@ -59,7 +61,8 @@ class App extends React.Component {
     }
     Axios.get(`/api/mainplayer/songs/${songNum}`)
       .then((data) => {
-        const { artist, genre, title, photo, color1, color2, duration, link, posted, peaks } = data.data;
+        const { artist, genre, title, photo, color1,
+          color2, duration, link, posted, peaks } = data.data;
         const comments = data.data.comments.map((comment) => {
           comment.click = false;
           comment.hover = false;
@@ -113,16 +116,16 @@ class App extends React.Component {
     event.preventDefault();
     const playButton = document.getElementsByClassName('playButton')[0];
     const audio = document.getElementsByTagName('audio')[0];
-    const { play, click } = this.state;
+    const { play, click, color1, color2 } = this.state;
     const progressPos = document.getElementsByClassName('progressPos')[0];
     const progressNeg = document.getElementsByClassName('progressNeg')[0];
     if (!click) {
       // change first pos and neg peak to fill color on play
-      progressPos.style.backgroundImage = `linear-gradient(${lightOrange}, ${orange})`;
-      progressNeg.style.backgroundImage = `linear-gradient(${orange}, ${lightOrange})`;
+      progressPos.style.backgroundImage = `linear-gradient(${color1}, ${lightOrange})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${color2})`;
     } else {
       // if comment is clicked, change first neg peak to fill color on play to lighter color
-      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${taupe})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${lightTaupe}, ${taupe})`;
     }
     if (play) {
       // on play click, start song and change button to pause img
@@ -161,7 +164,7 @@ class App extends React.Component {
   }
 
   handleWaveformDuringProgression() {
-    const { click, current, posPeaks, duration } = this.state;
+    const { click, current, posPeaks, duration, color1, color2 } = this.state;
     // audio tag current time event handler is triggered every quarter sec
     // find number of peaks that need to be changed per quarter sec in relation to duration of song
     const progressionPerQuarterSec = posPeaks.length / duration / 4;
@@ -172,12 +175,12 @@ class App extends React.Component {
     const progressNeg = document.getElementsByClassName('progressNeg')[Math.floor(current)];
     if (!click && Math.floor(current)) {
       // when comments are not clicked and current progress is not 0, color in current peaks
-      progressPos.style.backgroundImage = `linear-gradient(${lightOrange}, ${orange})`;
-      progressNeg.style.backgroundImage = `linear-gradient(${orange}, ${lightOrange})`;
+      progressPos.style.backgroundImage = `linear-gradient(${color1}, ${lightOrange})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${color2})`;
     } else if (click) {
       // when comments are clicked, color in current peaks with negative peaks being lighter
-      progressPos.style.backgroundImage = `linear-gradient(${lightOrange}, ${orange})`;
-      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${taupe})`;
+      progressPos.style.backgroundImage = `linear-gradient(${color1}, ${lightOrange})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${lightTaupe}, ${taupe})`;
     }
     return { newCurrent };
   }
@@ -255,7 +258,7 @@ class App extends React.Component {
     // change all negative peaks up to the current peak to be lighter
     for (let i = 0; i < Math.floor(current); i++) {
       const progressNeg = document.getElementsByClassName('progressNeg')[i];
-      progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${taupe})`;
+      progressNeg.style.backgroundImage = `linear-gradient(${lightTaupe}, ${taupe})`;
     }
     this.setState({
       comments: updateComments,
@@ -265,7 +268,7 @@ class App extends React.Component {
 
   handleClickOutside(event) {
     event.preventDefault();
-    const { click, current, comments } = this.state;
+    const { click, current, comments, modal, color2 } = this.state;
     // if comment has been clicked
     if (click) {
       const users = document.getElementsByClassName('userPhoto');
@@ -278,7 +281,7 @@ class App extends React.Component {
       // change all negative peaks to be regular color
       for (let i = 0; i < Math.floor(current); i++) {
         const progressNeg = document.getElementsByClassName('progressNeg')[i];
-        progressNeg.style.backgroundImage = `linear-gradient(${orange}, ${lightOrange})`;
+        progressNeg.style.backgroundImage = `linear-gradient(${lightOrange}, ${color2})`;
       }
       // restore all comments to be unclicked
       const updateComments = comments.map((comment, index) => {
@@ -289,29 +292,60 @@ class App extends React.Component {
         click: false,
         comments: updateComments,
       });
+    // if modal had been clicked, restore main song player and turn off modal
+    } else if (modal) {
+      const main = document.getElementsByClassName('main')[0];
+      main.style.opacity = '1';
+      main.style.filter = 'grayscale(0%)';
+      main.style.pointerEvents = 'auto';
+      this.setState({
+        modal: false
+      })
     }
   }
 
   handlePhotoCoverClick(event) {
     event.preventDefault();
+    // show modal of song cover and grey out main song player
+    const main = document.getElementsByClassName('main')[0];
+    main.style.opacity = '0.1';
+    main.style.filter = 'grayscale(75%)';
+    main.style.pointerEvents = 'none';
+    this.setState({
+      modal: true
+    })
   }
 
   render() {
     const { artist, genre, title, photo, duration, link, posted,
-      comments, progress, began, posPeaks, negPeaks } = this.state;
+      comments, progress, began, posPeaks, negPeaks, modal } = this.state;
     return (
-      <div>
+      <div onClick={this.handleClickOutside}>
         <GlobalStyle />
-        <Nav className="main" onClick={this.handleClickOutside}>
+        <Nav className="main">
           <PlayButton className="playButton" onClick={this.handlePlay} />
           <InfoLeft artist={artist} title={title} />
-          <InfoRight photo={photo} posted={posted} genre={genre} handlePhotoCoverClick={this.handlePhotoCoverClick} />
+          <InfoRight
+            photo={photo}
+            posted={posted}
+            genre={genre}
+            handlePhotoCoverClick={this.handlePhotoCoverClick} />
           <NavMusic>
-            <Audio link={link} began={began} progress={progress} duration={duration} handleProgression={this.handleProgression} />
+            <Audio
+              link={link}
+              began={began}
+              progress={progress}
+              duration={duration}
+              handleProgression={this.handleProgression} />
             <Waveform posPeaks={posPeaks} negPeaks={negPeaks} />
-            <Comments comments={comments} duration={duration} handleCommentClick={this.handleCommentClick} handleCommentHover={this.handleCommentHover} />
+            <Comments
+              comments={comments}
+              duration={duration}
+              handleCommentClick={this.handleCommentClick}
+              handleCommentHover={this.handleCommentHover} />
           </NavMusic>
         </Nav>
+        {modal ? <CoverModal photo={photo} title={title} handleClickOutside={this.handleClickOutside}/> : ''}
       </div>
     );
   }
