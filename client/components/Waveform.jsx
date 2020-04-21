@@ -1,19 +1,25 @@
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-const NavPos = window.styled.div`
+const NavPos = styled.div`
 position: absolute;
 top: 0px;
 height: 50px;
 max-width: 820px;
 `;
-const NavNeg = window.styled.div`
+
+const NavNeg = styled.div`
 position: absolute;
 bottom: 0px;
 height: 50px;
 max-width: 820px;
 `;
-const WavePos = window.styled.div`
+
+// waveform is created from positive and negative peaks
+// height of each div is based on peak
+// width of each div is based on total length of waveform (820) divided by the total number of peaks a song has
+
+const WavePos = styled.div`
 vertical-align: bottom;
 display: inline-block;
 box-sizing: border-box;
@@ -21,7 +27,8 @@ width: ${({ posPeaks }) => `${820 / posPeaks.length}px`};
 height: ${({ peakIndex, posPeaks }) => `${posPeaks[peakIndex]}px`};
 border: .1px solid #746153c9;
 `;
-const WaveNeg = window.styled.div`
+
+const WaveNeg = styled.div`
 vertical-align: top;
 display: inline-block;
 box-sizing: border-box;
@@ -34,18 +41,14 @@ const Waveform = ({ posPeaks, negPeaks }) => {
   return (
     <div>
       <NavPos className="navpos">
-        {posPeaks.map((posPeak, peakIndex) => {
-          return (
-            <WavePos className="progressPos" key={peakIndex} posPeaks={posPeaks} peakIndex={peakIndex} />
-          );
-        })}
+        {posPeaks.map((posPeak, peakIndex) => (
+          <WavePos className="progressPos" key={peakIndex} posPeaks={posPeaks} peakIndex={peakIndex} />
+        ))}
       </NavPos>
       <NavNeg>
-        {negPeaks.map((negPeak, peakIndex) => {
-          return (
-            <WaveNeg className="progressNeg" key={peakIndex} negPeaks={negPeaks} peakIndex={peakIndex} />
-          );
-        })}
+        {negPeaks.map((negPeak, peakIndex) => (
+          <WaveNeg className="progressNeg" key={peakIndex} negPeaks={negPeaks} peakIndex={peakIndex} />
+        ))}
       </NavNeg>
     </div>
   );
