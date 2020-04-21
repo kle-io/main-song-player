@@ -11,7 +11,7 @@
 ## Table of Contents
 
 1. [Development](#development)
-1. [Demo Video](#demo)
+1. [Demo Video](#demovideo)
 
 ## Development
 
