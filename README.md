@@ -1,30 +1,16 @@
-# Project Name
+# Kleio
 
-> Project description
+> A music streaming and sharing app. This component consists of the main song player which features a custom waveform visual along with user comments in relation to the song duration.
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/kle-io/toolbar
+  - https://github.com/kle-io/sidebar-service
+  - https://github.com/kle-io/Comment-Section
 
 ## Table of Contents
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
 1. [Development](#development)
-
-## Usage
-
-> Some usage instructions
-
-## Requirements
-
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
-- Node 6.13.0
-- etc
 
 ## Development
 
@@ -35,5 +21,7 @@ From within the root directory:
 ```sh
 npm install -g webpack
 npm install
+npm start
+npm dev:react
 ```
 
