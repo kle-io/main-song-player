@@ -56,7 +56,7 @@ class App extends React.Component {
 
   getSong(songNum) {
     // if no song id, choose a random song
-    if (typeof (songNum) !== 'number') {
+    if (!songNum) {
       songNum = Math.floor(Math.random() * 100);
     }
     Axios.get(`/api/mainplayer/songs/${songNum}`)
